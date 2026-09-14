@@ -1,5 +1,6 @@
 node_modules/
 dist/
-.venv/
-__pycache__/
-*.sqlite3
+.vercel/
+.impeccable/
+# backup tem dados pessoais
+planejames-backup*.json

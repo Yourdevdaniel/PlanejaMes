@@ -106,7 +106,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .grade { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; align-items: start; }
 .coluna { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; min-width: 0; }
-.lateral { display: grid; gap: 14px; position: sticky; top: 72px; }
+.lateral { display: grid; gap: 14px; position: sticky; top: 20px; }
 @media (max-width: 1000px) {
   .grade { grid-template-columns: minmax(0, 1fr); }
   .lateral { position: static; }
@@ -221,6 +221,13 @@ td .valor { text-align: right; width: 120px; font-variant-numeric: tabular-nums;
 .hist-mes.atual small { color: var(--texto); font-weight: 700; }
 .obs textarea { resize: vertical; margin-top: 2px; }
 
+.rodape {
+  margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--linha);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px;
+}
+.rodape p { margin: 0; max-width: 60ch; font-size: 13px; color: var(--mudo); }
+.rodape-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
@@ -233,7 +240,7 @@ td .valor { text-align: right; width: 120px; font-variant-numeric: tabular-nums;
   }
   html { background: #fff; color-scheme: light !important; }
   body { background: #fff; font-size: 11px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .temas, .hero, .lancar, .vazio, .barra-acoes, .troca-mes .icone, .chip, .x, .btn, .historico, .erro { display: none !important; }
+  .temas, .rodape, .hero, .lancar, .vazio, .barra-acoes, .troca-mes .icone, .chip, .x, .btn, .historico, .erro { display: none !important; }
   .painel { padding: 0; max-width: none; }
   .barra-mes { margin-bottom: 10px; }
   .troca-mes h2 { font-size: 24px; text-align: left; }

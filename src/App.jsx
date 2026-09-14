@@ -9,6 +9,37 @@ import Planilha from './Planilha'
 import Resumo from './Resumo'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// Os dados moram no navegador; o backup é o jeito de não perder e de levar pra outro aparelho.
+function Backup({ acao }) {
+  const arquivo = useRef()
+
+  const exportar = () => acao(async () => {
+    const url = URL.createObjectURL(new Blob([api.exportar()], { type: 'application/json' }))
+    const link = Object.assign(document.createElement('a'), { href: url, download: `planejames-backup-${new Date().toISOString().slice(0, 10)}.json` })
+    link.click()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  })
+
+  const importar = async e => {
+    const escolhido = e.target.files[0]
+    e.target.value = ''
+    if (!escolhido) return
+    if (!window.confirm('Importar substitui todos os dados salvos neste navegador pelos do arquivo. Continuar?')) return
+    await acao(async () => api.importar(await escolhido.text()))
+  }
+
+  return (
+    <footer className="rodape">
+      <p>Seus dados ficam salvos só neste navegador. Exporte um backup de vez em quando pra não perder nada ou pra levar pra outro aparelho.</p>
+      <div className="rodape-acoes">
+        <button className="btn" onClick={exportar}>Exportar backup</button>
+        <button className="btn" onClick={() => arquivo.current.click()}>Importar backup</button>
+        <input ref={arquivo} type="file" accept="application/json,.json" hidden onChange={importar} />
+      </div>
+    </footer>
+  )
+}
 const semMovimento = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const ORIENTACOES = { vertical: 'Vertical', horizontal: 'Horizontal' }
 
@@ -159,6 +190,9 @@ export default function App() {
             <Resumo dados={dados} historico={historico} chave={chave} acao={acao} />
           </div>
         ) : !erro && <p className="carregando">Carregando…</p>}
+
+        {/* fora do grid: continua acessível mesmo se os dados salvos derem erro */}
+        <Backup acao={acao} />
       </main>
     </>
   )
