@@ -167,7 +167,9 @@ function Cena({ chave, resumo, categorias, tema }) {
   const largo = viewport.width > 9
   // no desktop as pilhas ocupam só a metade direita, longe do texto
   const area = largo ? viewport.width * 0.48 : viewport.width * 0.9
-  const escala = Math.min(1, area / (pilhas.length * 1.3))
+  // no celular o texto do topo ocupa a tela: pilhas baixas e saldo logo acima delas, sem cobrir o texto
+  const maisAlta = Math.max(...pilhas.map(p => p.n)) * ALTURA
+  const escala = Math.min(1, area / (pilhas.length * 1.3), largo ? Infinity : 1.1 / maisAlta)
   const saldo = resumo?.saldo ?? 0
 
   useFrame(({ clock }) => {
@@ -176,10 +178,10 @@ function Cena({ chave, resumo, categorias, tema }) {
 
   return (
     <group position={[largo ? viewport.width * 0.23 : 0, largo ? -0.6 : -1.3, 0]}>
-      <Text font={fonte} fontSize={largo ? 0.62 : 0.5} position={[0, 3.55, 0]} color={saldo < 0 ? tema.cores.neg : tema.cores.texto} anchorX="center">
+      <Text font={fonte} fontSize={largo ? 0.62 : 0.42} position={[0, largo ? 3.55 : 2.0, 0]} color={saldo < 0 ? tema.cores.neg : tema.cores.texto} anchorX="center">
         {brl(saldo)}
       </Text>
-      <Text font={fonte} fontSize={0.16} letterSpacing={0.18} position={[0, 3.05, 0]} color={tema.cores.mudo} anchorX="center">
+      <Text font={fonte} fontSize={largo ? 0.16 : 0.12} letterSpacing={0.18} position={[0, largo ? 3.05 : 1.62, 0]} color={tema.cores.mudo} anchorX="center">
         {saldo < 0 ? 'NO VERMELHO ESTE MÊS' : 'SOBRA DO MÊS'}
       </Text>
       <group ref={grupo} scale={escala}>

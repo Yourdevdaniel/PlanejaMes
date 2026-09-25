@@ -175,15 +175,22 @@ td .valor { text-align: right; width: 120px; font-variant-numeric: tabular-nums;
 .x { width: 30px; height: 30px; font-size: 12px; color: var(--mudo); border-color: transparent; }
 .x:hover { color: var(--neg); }
 @media (max-width: 640px) {
-  /* celular: tabela cabe no cartão, sem rolagem lateral cortando o total */
+  /* celular: tabela cabe no cartão e os botões têm tamanho de dedo */
   table { min-width: 0; }
   .rolagem { margin: 0 -12px; }
   th, td { padding-left: 4px; padding-right: 4px; }
-  td.dia { width: 40px; } td.dia input { width: 36px; padding: 5px 0; font-size: 14px; }
-  td .valor { width: 88px; padding: 5px 2px; font-size: 14px; }
-  .acoes { flex-direction: column; align-items: flex-end; gap: 4px; }
-  .chip { padding: 3px 8px; font-size: 11px; }
-  .x { width: 24px; height: 24px; }
+  td.dia { width: 40px; } td.dia input { width: 38px; padding: 6px 0; }
+  td .valor { width: 92px; padding: 6px 2px; }
+  .acoes { flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 104px; }
+  .chip { min-height: 36px; padding: 6px 12px; }
+  .x { width: 36px; height: 36px; }
+  label.check input { width: 22px; height: 22px; }
+  .icone { width: 44px; height: 44px; }
+  .segmento button { min-height: 40px; }
+}
+/* iPhone/iPad dão zoom ao focar campo com fonte menor que 16px */
+@media (max-width: 640px), (pointer: coarse) {
+  .campos input, .campos select, .obs textarea, .barra-acoes input, td input { font-size: 16px; }
 }
 
 /* ---------- Lateral ---------- */
